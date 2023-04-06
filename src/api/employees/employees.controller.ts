@@ -1,7 +1,7 @@
-import { Body, Controller, Post, Get, Put, Param, Delete } from '@nestjs/common';
-import { CreateEmployeeDto, UpdateEmployeeDto } from './employees.dto';
-import { EmployeesService } from './employees.service';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import ResponseDto from 'src/utils/response.dto';
+import { CreateEmployeeDto, EmployeeQuery, UpdateEmployeeDto } from './employees.dto';
+import { EmployeesService } from './employees.service';
 
 @Controller('employees')
 export class EmployeesController {
@@ -14,8 +14,8 @@ export class EmployeesController {
   }
 
   @Get()
-  async findAll(): Promise<ResponseDto> {
-    const data = await this.employeesService.findAll();
+  async findAll(@Query() query: EmployeeQuery): Promise<ResponseDto> {
+    const data = await this.employeesService.findAll(query);
     return new ResponseDto(data);
   }
 

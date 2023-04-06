@@ -1,3 +1,5 @@
+import { SortOrder } from 'mongoose';
+
 export class CreateEmployeeDto {
   firstName: string;
   lastName: string;
@@ -8,3 +10,13 @@ export class CreateEmployeeDto {
 }
 
 export class UpdateEmployeeDto extends CreateEmployeeDto {}
+
+export class EmployeeQuery {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phoneNumber: string;
+  gender: string;
+  orderBy: string;
+  order: SortOrder;
+}
