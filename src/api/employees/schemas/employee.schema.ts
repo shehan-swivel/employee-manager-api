@@ -15,7 +15,7 @@ export class Employee {
   email: string;
 
   @Prop()
-  phoneNumber: number;
+  phoneNumber: string;
 
   @Prop({ enum: ['M', 'F', ''] })
   gender: string;
