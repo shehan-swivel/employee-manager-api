@@ -10,7 +10,7 @@ export class EmployeesController {
   @Post()
   async create(@Body() createEmployeeDto: CreateEmployeeDto): Promise<ResponseDto> {
     const data = await this.employeesService.create(createEmployeeDto);
-    return new ResponseDto(data, 'Employee created successfully.');
+    return new ResponseDto(data, 'Employee created successfully');
   }
 
   @Get()
@@ -22,13 +22,13 @@ export class EmployeesController {
   @Put(':id')
   async update(@Param('id') id: string, @Body() updateEmployeeDto: UpdateEmployeeDto): Promise<ResponseDto> {
     const data = await this.employeesService.update(id, updateEmployeeDto);
-    return new ResponseDto(data, 'Employee updated successfully.');
+    return new ResponseDto(data, 'Employee updated successfully');
   }
 
   @Delete(':id')
   async delete(@Param('id') id: string): Promise<ResponseDto> {
     await this.employeesService.delete(id);
-    return new ResponseDto(null, 'Employee deleted successfully.');
+    return new ResponseDto(null, 'Employee deleted successfully');
   }
 
   @Get(':id')

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Employee } from './schemas/employee.schema';
 import { Model } from 'mongoose';
@@ -8,7 +8,15 @@ import { CreateEmployeeDto, UpdateEmployeeDto } from './employees.dto';
 export class EmployeesService {
   constructor(@InjectModel(Employee.name) private employeeModel: Model<Employee>) {}
 
-  create(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
+  async create(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
+    if (createEmployeeDto.email) {
+      const employee = await this.employeeModel.findOne({ email: createEmployeeDto.email });
+
+      if (employee) {
+        throw new HttpException('Email address is already in use', HttpStatus.CONFLICT);
+      }
+    }
+
     const employee = new this.employeeModel(createEmployeeDto);
     return employee.save();
   }
@@ -21,7 +29,7 @@ export class EmployeesService {
     const employee = await this.employeeModel.findById(id);
 
     if (!employee) {
-      throw new Error('Employee not found');
+      throw new HttpException('Employee not found', HttpStatus.NOT_FOUND);
     }
 
     const { firstName, lastName, email, phoneNumber, gender } = data;
@@ -31,7 +39,7 @@ export class EmployeesService {
       const prevEmployee = await this.employeeModel.findOne({ email });
 
       if (prevEmployee) {
-        throw new Error('Email address is already in use');
+        throw new HttpException('Email address is already in use', HttpStatus.CONFLICT);
       }
     }
 
@@ -48,7 +56,7 @@ export class EmployeesService {
     const employee = await this.employeeModel.findById(id);
 
     if (!employee) {
-      throw new Error('Employee not found');
+      throw new HttpException('Employee not found', HttpStatus.NOT_FOUND);
     }
 
     return this.employeeModel.deleteOne({ _id: id });
@@ -58,7 +66,7 @@ export class EmployeesService {
     const employee = await this.employeeModel.findById(id);
 
     if (!employee) {
-      throw new Error('Employee not found');
+      throw new HttpException('Employee not found', HttpStatus.NOT_FOUND);
     }
 
     return employee;
