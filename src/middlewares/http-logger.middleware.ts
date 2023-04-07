@@ -3,11 +3,18 @@ import { Request, Response, NextFunction } from 'express';
 
 @Injectable()
 export class HTTPLoggerMiddleware implements NestMiddleware {
-  private logger = new Logger(`HTTP`);
+  private readonly logger = new Logger(`HTTP`);
 
   use(req: Request, res: Response, next: NextFunction) {
     res.on('close', () => {
-      this.logger.log(`HTTP request ${req.method} ${req.originalUrl} [${res.statusCode}]`);
+      const statusCode = res.statusCode;
+      const message = `HTTP request ${req.method} ${req.originalUrl} [${statusCode}]`;
+
+      if (statusCode >= 400) {
+        this.logger.error(message);
+      } else {
+        this.logger.log(message);
+      }
     });
 
     next();
