@@ -10,7 +10,7 @@ export class EmployeesService {
 
   async create(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
     if (createEmployeeDto.email) {
-      const employee = await this.employeeModel.findOne({ email: createEmployeeDto.email }).exec();
+      const employee = await this.employeeModel.findOne({ email: createEmployeeDto.email });
 
       if (employee) {
         throw new HttpException('Email address is already in use', HttpStatus.CONFLICT);
@@ -43,7 +43,7 @@ export class EmployeesService {
   }
 
   async update(id: string, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
-    const employee = await this.employeeModel.findById(id).exec();
+    const employee = await this.employeeModel.findById(id);
 
     if (!employee) {
       throw new HttpException('Employee not found', HttpStatus.NOT_FOUND);
@@ -53,7 +53,7 @@ export class EmployeesService {
 
     // If email is changed, check whether new email already is use
     if (email && email !== employee.email) {
-      const prevEmployee = await this.employeeModel.findOne({ email }).exec();
+      const prevEmployee = await this.employeeModel.findOne({ email });
 
       if (prevEmployee) {
         throw new HttpException('Email address is already in use', HttpStatus.CONFLICT);
@@ -70,18 +70,18 @@ export class EmployeesService {
   }
 
   async delete(id: string): Promise<boolean> {
-    const employee = await this.employeeModel.findById(id).exec();
+    const employee = await this.employeeModel.findById(id);
 
     if (!employee) {
       throw new HttpException('Employee not found', HttpStatus.NOT_FOUND);
     }
 
-    const result = await this.employeeModel.deleteOne({ _id: id }).exec();
+    const result = await this.employeeModel.deleteOne({ _id: id });
     return !!result.deletedCount;
   }
 
   async findById(id: string): Promise<Employee> {
-    const employee = await this.employeeModel.findById(id).exec();
+    const employee = await this.employeeModel.findById(id);
 
     if (!employee) {
       throw new HttpException('Employee not found', HttpStatus.NOT_FOUND);

@@ -1,6 +1,6 @@
 class ResponseDto {
-  data: any;
-  message: string;
+  data?: any;
+  message?: string;
 
   constructor(data = {}, message = '') {
     this.data = data;
