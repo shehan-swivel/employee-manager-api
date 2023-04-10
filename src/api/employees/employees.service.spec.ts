@@ -17,6 +17,8 @@ const employeeStub = (): Employee => {
   };
 };
 
+const randomId = '642eb1b706276e3cc9219257';
+
 describe('EmployeesService', () => {
   let service: EmployeesService;
   let model: Model<Employee>;
@@ -94,7 +96,6 @@ describe('EmployeesService', () => {
   describe('When update is called', () => {
     describe('with a correct employee id', () => {
       it('should update the employee', async () => {
-        const randomId = '642eb1b706276e3cc9219257';
         const employeeSaveStub = { ...employeeStub(), save: jest.fn() };
 
         jest.spyOn(model, 'findById').mockResolvedValue(employeeSaveStub);
@@ -107,8 +108,6 @@ describe('EmployeesService', () => {
 
     describe('with an incorrect employee id', () => {
       it('should throw not found error', async () => {
-        const randomId = '642eb1b706276e3cc9219257';
-
         jest.spyOn(model, 'findById').mockResolvedValue(null);
 
         try {
@@ -125,8 +124,6 @@ describe('EmployeesService', () => {
   describe('When delete is called', () => {
     describe('with a correct employee id', () => {
       it('should return true', async () => {
-        const randomId = '642eb1b706276e3cc9219257';
-
         jest.spyOn(model, 'findById').mockResolvedValue(employeeStub());
         jest.spyOn(model, 'deleteOne').mockResolvedValue({ deletedCount: 1 } as any);
 
@@ -137,8 +134,6 @@ describe('EmployeesService', () => {
 
     describe('with an incorrect employee id', () => {
       it('throw not found error', async () => {
-        const randomId = '642eb1b706276e3cc9219257';
-
         jest.spyOn(model, 'findById').mockResolvedValue(null);
 
         try {
@@ -155,8 +150,6 @@ describe('EmployeesService', () => {
   describe('When findById is called', () => {
     describe('with a correct employee id', () => {
       it('should return an employee', async () => {
-        const randomId = '642eb1b706276e3cc9219257';
-
         jest.spyOn(model, 'findById').mockResolvedValue(employeeStub());
 
         const employee = await service.findById(randomId);
@@ -166,12 +159,10 @@ describe('EmployeesService', () => {
 
     describe('with an incorrect employee id', () => {
       it('throw not found error', async () => {
-        const randomId = '642eb1b706276e3cc9219257';
-
         jest.spyOn(model, 'findById').mockResolvedValue(null);
 
         try {
-          await service.delete(randomId);
+          await service.findById(randomId);
         } catch (error) {
           expect(error).toBeInstanceOf(HttpException);
           expect(error).toHaveProperty('status', HttpStatus.NOT_FOUND);
