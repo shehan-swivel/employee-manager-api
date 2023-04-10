@@ -17,7 +17,7 @@ export class Employee {
   @Prop()
   phoneNumber: string;
 
-  @Prop({ enum: ['M', 'F', ''] })
+  @Prop({ enum: ['M', 'F'] })
   gender: string;
 
   @Prop()
