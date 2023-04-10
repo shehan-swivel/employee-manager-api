@@ -10,15 +10,14 @@ export class EmployeesService {
 
   async create(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
     if (createEmployeeDto.email) {
-      const employee = await this.employeeModel.findOne({ email: createEmployeeDto.email });
+      const employee = await this.employeeModel.findOne({ email: createEmployeeDto.email }).exec();
 
       if (employee) {
         throw new HttpException('Email address is already in use', HttpStatus.CONFLICT);
       }
     }
 
-    const employee = new this.employeeModel(createEmployeeDto);
-    return employee.save();
+    return await this.employeeModel.create(createEmployeeDto);
   }
 
   async findAll(query: EmployeeQuery): Promise<Employee[]> {
@@ -43,18 +42,18 @@ export class EmployeesService {
     return await this.employeeModel.find(filter).collation({ locale: 'en' }).sort(sort).exec();
   }
 
-  async update(id: string, data: UpdateEmployeeDto): Promise<Employee> {
-    const employee = await this.employeeModel.findById(id);
+  async update(id: string, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
+    const employee = await this.employeeModel.findById(id).exec();
 
     if (!employee) {
       throw new HttpException('Employee not found', HttpStatus.NOT_FOUND);
     }
 
-    const { firstName, lastName, email, phoneNumber, gender } = data;
+    const { firstName, lastName, email, phoneNumber, gender } = updateEmployeeDto;
 
     // If email is changed, check whether new email already is use
     if (email && email !== employee.email) {
-      const prevEmployee = await this.employeeModel.findOne({ email });
+      const prevEmployee = await this.employeeModel.findOne({ email }).exec();
 
       if (prevEmployee) {
         throw new HttpException('Email address is already in use', HttpStatus.CONFLICT);
@@ -70,18 +69,19 @@ export class EmployeesService {
     return employee.save();
   }
 
-  async delete(id: string): Promise<any> {
-    const employee = await this.employeeModel.findById(id);
+  async delete(id: string): Promise<boolean> {
+    const employee = await this.employeeModel.findById(id).exec();
 
     if (!employee) {
       throw new HttpException('Employee not found', HttpStatus.NOT_FOUND);
     }
 
-    return this.employeeModel.deleteOne({ _id: id });
+    const result = await this.employeeModel.deleteOne({ _id: id }).exec();
+    return !!result.deletedCount;
   }
 
   async findById(id: string): Promise<Employee> {
-    const employee = await this.employeeModel.findById(id);
+    const employee = await this.employeeModel.findById(id).exec();
 
     if (!employee) {
       throw new HttpException('Employee not found', HttpStatus.NOT_FOUND);
