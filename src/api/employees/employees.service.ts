@@ -34,7 +34,7 @@ export class EmployeesService {
     if (firstName) filter.firstName = new RegExp(firstName, 'i');
     if (lastName) filter.lastName = new RegExp(lastName, 'i');
     if (email) filter.email = new RegExp(email, 'i');
-    if (phoneNumber) filter.phoneNumber = new RegExp(phoneNumber.trim());
+    if (phoneNumber) filter.phoneNumber = new RegExp(phoneNumber.replace('+', ''));
     if (gender) filter.gender = gender;
 
     if (orderByValues[orderBy] && orderValues[order]) sort[orderBy] = order;

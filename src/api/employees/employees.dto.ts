@@ -38,24 +38,24 @@ export class CreateEmployeeDto {
 export class UpdateEmployeeDto extends CreateEmployeeDto {}
 
 export class EmployeeQuery {
-  @ApiProperty({ example: 'Test', description: 'Filter by first name' })
+  @ApiProperty({ description: 'Filter by first name' })
   firstName?: string;
 
-  @ApiProperty({ example: 'User', description: 'Filter by last name' })
+  @ApiProperty({ description: 'Filter by last name' })
   lastName?: string;
 
-  @ApiProperty({ example: 'testuser@example.com', description: 'Filter by email' })
+  @ApiProperty({ description: 'Filter by email' })
   email?: string;
 
-  @ApiProperty({ example: '+94791234567', description: 'Filter by phone number' })
+  @ApiProperty({ description: 'Filter by phone number' })
   phoneNumber?: string;
 
-  @ApiProperty({ example: 'F', enum: ['M', 'F'], description: 'Filter by gender' })
+  @ApiProperty({ enum: ['M', 'F'], description: 'Filter by gender' })
   gender?: string;
 
-  @ApiProperty({ example: 'firstName', description: 'Sorting property' })
+  @ApiProperty({ description: 'Sorting property' })
   orderBy?: string;
 
-  @ApiProperty({ example: 'desc', enum: ['asc', 'desc'], description: 'Sorting order' })
+  @ApiProperty({ enum: ['asc', 'desc'], description: 'Sorting order' })
   order?: string;
 }
