@@ -22,9 +22,9 @@ export class CreateEmployeeDto {
   @ApiProperty({ example: 'testuser@example.com' })
   email?: string;
 
-  @IsMobilePhone('si-LK', { strictMode: true })
+  @IsMobilePhone('si-LK', { strictMode: true }, { message: 'Phone number must be a valid phone number' })
   @ValidateIf((_, value) => !!value)
-  @ApiProperty({ example: '+94791234567' })
+  @ApiProperty({ example: '+94701234567' })
   phoneNumber?: string;
 
   @IsEnum(Gender)
