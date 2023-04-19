@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsAlpha, IsEmail, IsEnum, IsMobilePhone, IsNotEmpty, MaxLength, MinLength } from 'class-validator';
+import { IsAlpha, IsEmail, IsEnum, IsMobilePhone, IsNotEmpty, MaxLength, MinLength, ValidateIf } from 'class-validator';
 import { Gender } from 'src/constants/enums';
 
 export class CreateEmployeeDto {
@@ -18,10 +18,12 @@ export class CreateEmployeeDto {
   lastName: string;
 
   @IsEmail()
+  @ValidateIf((_, value) => !!value)
   @ApiProperty({ example: 'testuser@example.com' })
   email?: string;
 
   @IsMobilePhone('si-LK', { strictMode: true })
+  @ValidateIf((_, value) => !!value)
   @ApiProperty({ example: '+94791234567' })
   phoneNumber?: string;
 
