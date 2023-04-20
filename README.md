@@ -46,13 +46,13 @@ $ npm run test
 ## Project structure
 
 ```bash
-src/
-  api/
-    employees/
-      schemas/
-  constants/
-  middlewares/
-  utils/
+src/                          # Source folder
+  api/                        # Contains all the API modules
+    employees/                # Employee module
+      schemas/                # Employee schemas
+  constants/                  # Contains all the constants
+  middlewares/                # Contains all the custom middlewares
+  utils/                      # Contains all the utils
   |-- app.controller.spec.ts
   |-- app.controller.ts
   |-- app.module.ts
