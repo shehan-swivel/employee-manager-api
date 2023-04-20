@@ -3,13 +3,9 @@ import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
-const whitelist = [/(localhost)/, 'https://employee-manager-web-ten.vercel.app/'];
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  app.enableCors({
-    origin: whitelist,
-  });
+  app.enableCors({ origin: true });
   app.setGlobalPrefix('api');
   app.useGlobalPipes(new ValidationPipe());
 
