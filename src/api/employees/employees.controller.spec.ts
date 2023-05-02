@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { IdParamDto } from 'src/common/dto';
 import ResponseDto from 'src/utils/response.dto';
 import { EmployeesController } from './employees.controller';
 import { EmployeeQuery } from './employees.dto';
@@ -80,14 +81,14 @@ describe('EmployeesController', () => {
 
   describe('when update is called', () => {
     let response: ResponseDto;
-    const randomId = '642eb1b706276e3cc9219257';
+    const params: IdParamDto = { id: '642eb1b706276e3cc9219257' };
 
     beforeEach(async () => {
-      response = await controller.update(randomId, employeeStub());
+      response = await controller.update(params, employeeStub());
     });
 
     it('should call employeesService', () => {
-      expect(service.update).toHaveBeenCalledWith(randomId, employeeStub());
+      expect(service.update).toHaveBeenCalledWith(params.id, employeeStub());
     });
 
     it('should return the updated employee with success message', () => {
@@ -97,14 +98,14 @@ describe('EmployeesController', () => {
 
   describe('when delete is called', () => {
     let response: ResponseDto;
-    const randomId = '642eb1b706276e3cc9219257';
+    const params: IdParamDto = { id: '642eb1b706276e3cc9219257' };
 
     beforeEach(async () => {
-      response = await controller.delete(randomId);
+      response = await controller.delete(params);
     });
 
     it('should call employeesService', () => {
-      expect(service.delete).toHaveBeenCalledWith(randomId);
+      expect(service.delete).toHaveBeenCalledWith(params.id);
     });
 
     it('should return with success message', () => {
@@ -114,14 +115,14 @@ describe('EmployeesController', () => {
 
   describe('When findById is called', () => {
     let response: ResponseDto;
-    const randomId = '642eb1b706276e3cc9219257';
+    const params: IdParamDto = { id: '642eb1b706276e3cc9219257' };
 
     beforeEach(async () => {
-      response = await controller.findById(randomId);
+      response = await controller.findById(params);
     });
 
     it('should call employeesService', () => {
-      expect(service.findById).toHaveBeenCalledWith(randomId);
+      expect(service.findById).toHaveBeenCalledWith(params.id);
     });
 
     it('should return an employee', () => {
