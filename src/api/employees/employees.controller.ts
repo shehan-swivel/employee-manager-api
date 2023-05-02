@@ -1,11 +1,12 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { IdParamDto } from 'src/common/dto';
 import ResponseDto from 'src/utils/response.dto';
 import { CreateEmployeeDto, EmployeeQuery, UpdateEmployeeDto } from './employees.dto';
 import { EmployeesService } from './employees.service';
 
 @ApiTags('Employees')
-@Controller('employees')
+@Controller({ path: 'employees', version: '1' })
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
 
@@ -37,8 +38,8 @@ export class EmployeesController {
   @ApiOkResponse({ description: 'The record updated successfully.' })
   @ApiNotFoundResponse({ description: 'Failed to update the record. Record not found.' })
   @ApiConflictResponse({ description: 'Failed to update the record. Email address already in use.' })
-  async update(@Param('id') id: string, @Body() updateEmployeeDto: UpdateEmployeeDto): Promise<ResponseDto> {
-    const data = await this.employeesService.update(id, updateEmployeeDto);
+  async update(@Param() params: IdParamDto, @Body() updateEmployeeDto: UpdateEmployeeDto): Promise<ResponseDto> {
+    const data = await this.employeesService.update(params.id, updateEmployeeDto);
     return new ResponseDto(data, 'Employee updated successfully');
   }
 
@@ -48,8 +49,8 @@ export class EmployeesController {
   @Delete(':id')
   @ApiOkResponse({ description: 'The record deleted successfully.' })
   @ApiNotFoundResponse({ description: 'Failed to delete the record. Record not found.' })
-  async delete(@Param('id') id: string): Promise<ResponseDto> {
-    await this.employeesService.delete(id);
+  async delete(@Param() params: IdParamDto): Promise<ResponseDto> {
+    await this.employeesService.delete(params.id);
     return new ResponseDto(null, 'Employee deleted successfully');
   }
 
@@ -59,8 +60,8 @@ export class EmployeesController {
   @Get(':id')
   @ApiOkResponse({ description: 'The record fetched successfully.' })
   @ApiNotFoundResponse({ description: 'Failed to fetch the record. Record not found.' })
-  async findById(@Param('id') id: string): Promise<ResponseDto> {
-    const data = await this.employeesService.findById(id);
+  async findById(@Param() params: IdParamDto): Promise<ResponseDto> {
+    const data = await this.employeesService.findById(params.id);
     return new ResponseDto(data);
   }
 }
