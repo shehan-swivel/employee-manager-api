@@ -1,6 +1,6 @@
 # Employee Manager API
 
-Employee Manager RESTful API which built with NestJS. 
+Employee Manager RESTful API which built with NestJS.
 
 ## Clone the repository
 
@@ -24,6 +24,13 @@ PORT=<PORT>
 
 # Database configurations
 DB_URL=<MONGO DB CONNECTION STRING>
+
+# API Key to share with client apps.
+# This API Key should be provided by each client using the X-Api-Key header in the request.
+API_KEY=<YOUR API KEY>
+
+# CORS allowed origins (ex: http://localhost:3000,https://example.com)
+ALLOWED_ORIGINS=<COMMA SEPARATED ORIGIN LIST>
 ```
 
 ## Running the app
@@ -59,7 +66,7 @@ src/                          # Source folder
   |-- app.service.ts
   |-- main.ts
 test/
-.env
+.env.example
 .eslintrc.js
 .gitignore
 .prettierrc
@@ -73,21 +80,23 @@ tsconfig.json
 
 ## API Endpoints
 
+API endpoints are secured by an API Key. To access the endpoints, make sure to provide a valid API Key using the X-Api-Key header in the request. When using Swagger, you can use the "Authorize" option in the Swagger UI to provide the API Key.
+
 ### Swagger documentation
 
 `GET - /docs` - Swagger documentation
 
 ### Employee routes
 
-`POST - api/employees` - Create a new employee
+`POST - api/v1/employees` - Create a new employee
 
-`GET - api/employees` - Returns array of employees. Optional query parameters are also acceptable.
+`GET - api/v1/employees` - Returns array of employees. Optional query parameters are also acceptable.
 
-`PUT - api/employees/:id` - Update an employee
+`PUT - api/v1/employees/:id` - Update an employee
 
-`DELETE - api/employees/:id` - Delete an employee by id
+`DELETE - api/v1/employees/:id` - Delete an employee by id
 
-`GET - api/employees/:id` - Returns an employee by id
+`GET - api/v1/employees/:id` - Returns an employee by id
 
 ## License
 
