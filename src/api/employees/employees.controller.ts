@@ -1,11 +1,21 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common';
-import { ApiConflictResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Delete, Get, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import {
+  ApiConflictResponse,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiSecurity,
+  ApiTags,
+} from '@nestjs/swagger';
 import { IdParamDto } from 'src/common/dto';
 import ResponseDto from 'src/utils/response.dto';
+import { ApiKeyGuard } from '../auth/guards';
 import { CreateEmployeeDto, EmployeeQuery, UpdateEmployeeDto } from './employees.dto';
 import { EmployeesService } from './employees.service';
 
+@UseGuards(ApiKeyGuard)
 @ApiTags('Employees')
+@ApiSecurity('XApiKey')
 @Controller({ path: 'employees', version: '1' })
 export class EmployeesController {
   constructor(private readonly employeesService: EmployeesService) {}
@@ -22,7 +32,7 @@ export class EmployeesController {
   }
 
   /**
-   * Returns array of employees. Optional query parameters are also acceptable.
+   * Retrieves all employees. Optional query parameters are also acceptable.
    */
   @Get()
   @ApiOkResponse({ description: 'Records fetched successfully.' })
@@ -32,7 +42,7 @@ export class EmployeesController {
   }
 
   /**
-   * Update an employee
+   * Updates an existing employee.
    */
   @Put(':id')
   @ApiOkResponse({ description: 'The record updated successfully.' })
@@ -55,7 +65,7 @@ export class EmployeesController {
   }
 
   /**
-   * Returns an employee by id
+   * Retrieves an employee by id
    */
   @Get(':id')
   @ApiOkResponse({ description: 'The record fetched successfully.' })

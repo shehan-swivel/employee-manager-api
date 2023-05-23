@@ -1,13 +1,19 @@
 import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from './api/auth/auth.module';
+import { EmployeesModule } from './api/employees/employees.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule } from '@nestjs/config';
-import { EmployeesModule } from './api/employees/employees.module';
-import { MongooseModule } from '@nestjs/mongoose';
 import { HTTPLoggerMiddleware } from './middlewares/http-logger.middleware';
 
 @Module({
-  imports: [ConfigModule.forRoot(), MongooseModule.forRoot(process.env.DB_URL), EmployeesModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    MongooseModule.forRoot(process.env.DB_URL),
+    AuthModule,
+    EmployeesModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

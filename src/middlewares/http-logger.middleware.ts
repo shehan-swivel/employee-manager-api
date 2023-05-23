@@ -10,6 +10,7 @@ export class HTTPLoggerMiddleware implements NestMiddleware {
       const statusCode = res.statusCode;
       const message = `HTTP request ${req.method} ${req.originalUrl} [${statusCode}]`;
 
+      // Log error when status code is greater than or equal to 400
       if (statusCode >= 400) {
         this.logger.error(message);
       } else {
