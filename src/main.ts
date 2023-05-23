@@ -1,13 +1,17 @@
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
-import { DocumentBuilder, SwaggerCustomOptions, SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { getAllowedOrigins } from './utils/common-util';
+import winstonLogger from './utils/winston.logger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: winstonLogger,
+  });
 
-  // Enable CORS only for provided origins in ALLOWED_ORIGINS environment variable
-  app.enableCors({ origin: process.env.ALLOWED_ORIGINS?.split(',') });
+  // Enable CORS only for the provided origins.
+  app.enableCors({ origin: getAllowedOrigins() });
 
   app.setGlobalPrefix('api');
 

@@ -29,7 +29,9 @@ DB_URL=<MONGO DB CONNECTION STRING>
 # This API Key should be provided by each client using the X-Api-Key header in the request.
 API_KEY=<YOUR API KEY>
 
-# CORS allowed origins (ex: http://localhost:3000,https://example.com)
+# CORS allowed origins
+# ex: http://localhost:3000,https://example.com
+# use * to enable for all the origins
 ALLOWED_ORIGINS=<COMMA SEPARATED ORIGIN LIST>
 ```
 
